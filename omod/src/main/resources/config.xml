@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!-- DOCTYPE module PUBLIC "-//OpenMRS//DTD OpenMRS Config 1.0//EN" "http://resources.openmrs.org/doctype/config-1.2.dtd"-->
+
+<module configVersion="1.0">
+	
+	<!-- Messaging Module Properties -->
+	<id>@MODULE_ID@</id>
+	<name>@MODULE_NAME@</name>
+	<version>@MODULE_VERSION@</version>
+	<package>@MODULE_PACKAGE@</package>
+	<author>Hui Xiao</author>
+	<description>
+		Extend personalhr module with messaging functions to build an integrated PHR application
+	</description>
+	<activator>@MODULE_PACKAGE@.MessagingphrModuleActivator</activator>
+	<require_modules>  	
+	     <require_module>org.openmrs.module.messaging</require_module>  	
+	     <require_module>org.openmrs.module.personalhr</require_module>  	
+	</require_modules> 
+	
+	<dwr>
+		<allow>	
+			<convert converter="bean" match="org.openmrs.module.messaging.domain.MessagingAddress" />
+			<convert converter="bean" match="org.openmrs.module.messaging.domain.Message" />
+			<convert converter="bean" match="org.openmrs.module.messaging.web.domain.MessageBean"/>
+			<convert converter="bean" match="org.openmrs.module.messaging.web.domain.MessageBeanSet"/>
+			<convert converter="bean" match="org.openmrs.module.messaging.domain.Modem"/>
+			<convert converter="bean" match="org.openmrs.module.messaging.web.domain.AddressAutocompleteBean" />
+						
+			<create creator="new" javascript="DWRMessagingAddressServiceForPhr">
+				<param name="class" value="org.openmrs.module.messagingphr.web.dwr.DWRMessagingAddressServiceForPhr"/>
+				<include method="getAllAddressesForCurrentUser"/>
+				<include method="getAllAddressesForPersonId"/>
+				<include method="getPublicAddressesForPersonId"/>
+				<include method="getPublicAddressesForCurrentUser"/>
+				<include method="deleteAddress"/>
+				<include method="saveOrUpdateAddress"/>
+				<include method="saveOrUpdateAddressForCurrentUser"/>
+				<include method="autocompleteSearch"/>
+			</create>			
+		</allow>
+	</dwr>
+	
+	<!-- Extension points -->	
+	<extension>
+		<point>org.openmrs.module.personalhr.patientDashboardTab</point>
+		<class>@MODULE_PACKAGE@.extension.html.MessagingPhrDashboardTabExt</class>
+	</extension>
+
+	<extension>
+		<point>org.openmrs.module.personalhr.restrictedUserDashboardTab</point>
+		<class>@MODULE_PACKAGE@.extension.html.MessagingPhrDashboardTabExt</class>
+	</extension>
+		
+	<!-- Privileges -->
+	
+	<privilege>
+		<name>View Messaging Inbox</name>
+		<description>Able to view messages</description>
+	</privilege>
+	
+	<privilege>
+		<name>@MODULE_NAME@</name>
+		<description>Able to send messages</description>
+	</privilege>
+
+	<privilege>
+		<name>@MODULE_NAME@</name>
+		<description>Able to add/edit/delete messages</description>
+	</privilege>
+	
+	<privilege>
+		<name>@MODULE_NAME@</name>
+		<description>Able to view messaging addresses</description>
+	</privilege>
+	
+	<privilege>
+		<name>@MODULE_NAME@</name>
+		<description>Able to add/edit/delete messaging addresses</description>
+	</privilege>
+	
+	<privilege>
+		<name>@MODULE_NAME@</name>
+		<description>Able to start/stop and configure messaging gateways</description>
+	</privilege>
+	
+	<!-- Internationalization -->
+	<!-- All message codes should start with @MODULE_ID@.* -->
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+		
+</module>
