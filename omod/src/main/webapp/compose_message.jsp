@@ -99,9 +99,9 @@ $j(function() {
 			search: function() {
 				// custom minLength
 				var term = extractLast( this.value );
-				if ( term.length < 2 ) {
-					return false;
-				}
+				//if ( term.length < 2 ) {
+				//	return false;
+				//}
 			},
 			focus: function() {
 				// prevent value inserted on focus
