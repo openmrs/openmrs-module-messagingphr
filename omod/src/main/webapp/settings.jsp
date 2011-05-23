@@ -8,10 +8,10 @@
 	<%
 		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
 	%>
-	<openmrs:htmlInclude file="/dwr/engine.js" />	
 </c:if>
 
 <%@ include file="/WEB-INF/template/header.jsp"%>
+<openmrs:htmlInclude file="/dwr/engine.js" />	
 
 <link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/messaging/css/settings.css" type="text/css"/>
 <table id="index">
@@ -42,8 +42,8 @@
 					<div id="edit-address-panel">
 						<input type="text" id="address"></input>
 						<select id="protocolClass">
-							<option value="org.openmrs.module.messagingphr.sms.SmsProtocol">SMS</option>
-							<option value="org.openmrs.module.messagingphr.email.EmailProtocol">Email</option>
+							<option value="org.openmrs.module.messaging.sms.SmsProtocol">SMS</option>
+							<option value="org.openmrs.module.messaging.email.EmailProtocol">Email</option>
 						</select>
 						<input type="checkbox" id="preferred">Preferred</input>
 						<span id="messagingAddressId" style="display:none;">-1</span>
@@ -58,9 +58,9 @@
 			<div id="alert-settings">
 				<hr/>
 				<span style="display:block;">Alerts</span>
-				<input type="checkbox" id="enable-alerts-checkbox" style="display:inline;"></input>
+				<input type="checkbox" id="enable-alerts-checkbox" style="display:inline;" <c:if test="${ shouldAlert }">checked</c:if>></input>
 				<label for="enable-alerts-checkbox" style="display:inline;">Alert me when I have new OMail at</label>
-				<select style="display:inline;" id="alert-address-select" disabled="true">
+				<select style="display:inline;" id="alert-address-select" <c:if test="${ shouldAlert == null || shouldAlert == false }">disabled="disabled"</c:if>>
 				</select><br/>
 			</div>
 </td>
@@ -71,22 +71,23 @@
 <script src="<openmrs:contextPath/>/moduleResources/messaging/jquery/jquery.watermark.min.js"></script>
 <openmrs:htmlInclude file="/dwr/engine.js"/>
 <openmrs:htmlInclude file="/dwr/util.js"/>
-<script src="<openmrs:contextPath/>/dwr/interface/DWRMessagingAddressServiceForPhr.js"></script>
-
+<script src="<openmrs:contextPath/>/dwr/interface/DWRMessagingAddressService.js"></script>
+<script src="<openmrs:contextPath/>/dwr/interface/DWRMessagingSettingsService.js"></script>
 <script type="text/javascript">
 	window.onload = init;
 	var viewed = -1;
 	var addressCache = { };
-	var protocolNames= {"org.openmrs.module.messagingphr.sms.SmsProtocol":"SMS",
-						"org.openmrs.module.messagingphr.omail.OMailProtocol":"OMail",
-						"org.openmrs.module.messagingphr.email.EmailProtocol":"Email"};
-	
+	var protocolNames= {"org.openmrs.module.messaging.sms.SmsProtocol":"SMS",
+						"org.openmrs.module.messaging.omail.OMailProtocol":"OMail",
+						"org.openmrs.module.messaging.email.EmailProtocol":"Email"};
+	var alertAddressId = <c:out value="${ alertAddress.messagingAddressId }">-1</c:out>;
 	function init(){
 		//add the "Add Address" event listener
 		$j('#add-address-button').live("click",addAddressClick);
 		$j('#save-address-button').live('click',saveAddressClick);
 		$j('#cancel-address-button').live('click',cancelAddressClick);
 		$j('#enable-alerts-checkbox').live('click',toggleAlerts);
+		$j('#alert-address-select').live('change',alertsChanged);
 		//watermark the address button
 		//$j('#address-textbox').watermark('Address');
 		fillAddressTable();
@@ -94,7 +95,7 @@
 	}
 
 	function fillAddressTable(){
-		DWRMessagingAddressServiceForPhr.getAllAddressesForCurrentUser(function(addresses){
+		DWRMessagingAddressService.getAllAddressesForCurrentUser(function(addresses){
 			dwr.util.removeAllRows("address-table-body", { filter:function(tr) {return (tr.id != "addressRow");}});
 			var address;
 			// iterate through the messages, cloning the pattern row
@@ -114,9 +115,15 @@
 	}
 
 	function fillAlertAddressSelect(){
-		DWRMessagingAddressServiceForPhr.getAllAddressesForCurrentUser(function(addresses) {
+		DWRMessagingAddressService.getAlertableAddressesForCurrentUser(function(addresses) {
 			dwr.util.removeAllOptions("alert-address-select");
-			dwr.util.addOptions("alert-address-select",addresses,"address");
+			dwr.util.addOptions("alert-address-select",addresses,"messagingAddressId","address");
+			$j("#alert-address-select").val(<c:out value="${ alertAddress.messagingAddressId }"/>);
+			if(addresses.length == 0){
+				$j("#enable-alerts-checkbox").attr("disabled","disabled");
+			}else{
+				$j("#enable-alerts-checkbox").removeAttr("disabled");
+			}
 		});
 	}
  
@@ -149,10 +156,13 @@
 		//confirm the delete
 		if (confirm("Are you sure you want to delete address " + address.address + "?")) {
 	    	dwr.engine.beginBatch();
-	    	DWRMessagingAddressServiceForPhr.deleteAddress(address.messagingAddressId);
+	    	DWRMessagingAddressService.deleteAddress(address.messagingAddressId);
 	    	fillAddressTable();
 	    	fillAlertAddressSelect();
 	    	dwr.engine.endBatch();
+	    	if(address.messagingAddressId == alertAddressId){
+				$j("#enable-alerts-checkbox").removeAttr("checked");
+	    	}
 	    	clearEditingArea();
 			if ($j("#edit-address-panel").is(":hidden")==false){
 				toggleEditingAddress();
@@ -169,7 +179,7 @@
 		  var address = { messagingAddressId:viewed, protocolClass:null, address:null,preferred:null};
 		  dwr.util.getValues(address);
 		  dwr.engine.beginBatch();
-		  DWRMessagingAddressServiceForPhr.saveOrUpdateAddressForCurrentUser(address);
+		  DWRMessagingAddressService.saveOrUpdateAddressForCurrentUser(address);
 		  fillAddressTable();
 		  fillAlertAddressSelect();
 		  dwr.engine.endBatch();
@@ -199,7 +209,12 @@
 		}else{
 			$j("#alert-address-select").attr("disabled","disabled");
 		}
-		
+		alertsChanged();
+	}
+
+	function alertsChanged(){
+		DWRMessagingSettingsService.setAlertSettings($j("#enable-alerts-checkbox").is(":checked"), $j("#alert-address-select").val());
+		alertAddressId = $j("#alert-address-select").val();
 	}
 	
 	function cloneAddressRow(adrId){

@@ -27,7 +27,7 @@ public class MessagingPhrDashboardTabExt extends PatientDashboardTabExt {
 
 	@Override
 	public String getTabName() {
-		return "Messaging";
+		return "My Mail";
 	}
 
 }

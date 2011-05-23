@@ -26,10 +26,11 @@
 	<%
 		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
 	%>
-	<openmrs:htmlInclude file="/dwr/engine.js" />	
 </c:if>
 
 <%@ include file="/WEB-INF/template/header.jsp"%>
+<openmrs:htmlInclude file="/dwr/engine.js" />	
+
 <div id="index" class="home">
 	<table id="compose-message-table">
 	<tr>

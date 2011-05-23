@@ -13,10 +13,10 @@
 	<%
 		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
 	%>
-	<openmrs:htmlInclude file="/dwr/engine.js" />	
 </c:if>
 
 <%@ include file="/WEB-INF/template/header.jsp"%>
+<openmrs:htmlInclude file="/dwr/engine.js" />	
 
 <link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/messaging/css/inbox.css" type="text/css"/>
 <table id="index">
