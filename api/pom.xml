@@ -9,8 +9,8 @@
 	<groupId>org.openmrs.module</groupId>
 	<artifactId>messagingphr-api</artifactId>
 	<packaging>jar</packaging>
-	<name>messagingphr module API</name>
-	<description>API project for messagingphr module</description>
+	<name>PHR Messaging Module API</name>
+	<description>API project for PHR Messaging Module</description>
 
 	<dependencies>
 		<!-- 

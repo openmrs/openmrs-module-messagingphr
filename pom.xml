@@ -6,8 +6,8 @@
 	<artifactId>messagingphr</artifactId>
 	<version>0.9.0-beta</version>
 	<packaging>pom</packaging>
-	<name>Messaging-Phr Module</name>
-	<description>Parent project for messagingphr Module</description>
+	<name>PHR Messaging Module</name>
+	<description>Parent project for PHR Messaging Module</description>
 
 	<url>http://openmrs.org</url>
 
