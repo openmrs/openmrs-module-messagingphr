@@ -18,7 +18,7 @@
 <tr>
 	<td id="link-cell">
 		<div id="link-panel">
-			<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">OMail Inbox</a>
+			<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">Mail Inbox</a>
 			<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose Message</a>
 			<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form">Sent Messages</a>
 			<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form">Settings</a>
@@ -59,7 +59,7 @@
 				<hr/>
 				<span style="display:block;">Alerts</span>
 				<input type="checkbox" id="enable-alerts-checkbox" style="display:inline;" <c:if test="${ shouldAlert }">checked</c:if>></input>
-				<label for="enable-alerts-checkbox" style="display:inline;">Alert me when I have new OMail at</label>
+				<label for="enable-alerts-checkbox" style="display:inline;">Alert me when I have new Mail at</label>
 				<select style="display:inline;" id="alert-address-select" <c:if test="${ shouldAlert == null || shouldAlert == false }">disabled="disabled"</c:if>>
 				</select><br/>
 			</div>
@@ -78,7 +78,7 @@
 	var viewed = -1;
 	var addressCache = { };
 	var protocolNames= {"org.openmrs.module.messaging.sms.SmsProtocol":"SMS",
-						"org.openmrs.module.messaging.omail.OMailProtocol":"OMail",
+						"org.openmrs.module.messaging.omail.Protocol":"OMail",
 						"org.openmrs.module.messaging.email.EmailProtocol":"Email"};
 	var alertAddressId = <c:out value="${ alertAddress.messagingAddressId }">-1</c:out>;
 	function init(){
