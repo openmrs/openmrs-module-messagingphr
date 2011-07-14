@@ -116,7 +116,8 @@
 	function init() {
 		//$j("#inbox-search").watermark("search inbox");
 		$j("#messages-table-body *").live("click",rowClicked);
-		fillMessageTable();
+		$j("#message-info-panel").hide();
+		fillMessageTable();		
 	}
 	
 	function rowClicked(e){
@@ -129,6 +130,7 @@
 			$j("#pattern"+message.id).removeClass("unread-row");	
 			$j("#pattern"+message.id).addClass("read-row");	
 		}
+		$j("#message-info-panel").show();
 		$j("#header-from").html(message.sender);
 		$j("#header-subject").html(message.subject);
 		$j("#header-date").html(message.date);

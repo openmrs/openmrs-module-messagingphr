@@ -93,6 +93,7 @@
 	function init() {
 		//$j("#sent-messages-search").watermark("search sent messages");
 		$j("#messages-table-body *").live("click",rowClicked);
+		$j("#message-info-panel").hide();		
 		fillMessageTable();
 	}
 	
@@ -100,6 +101,7 @@
 		var who = e.target||e.srcElement;
 		var id =who.id.substring(12);
 		var message = messageCache[id];
+		$j("#message-info-panel").show();
 		$j("#header-subject").html(message.subject);
 		$j("#header-date").html(message.date);
 		$j("#header-to").html(message.recipients);

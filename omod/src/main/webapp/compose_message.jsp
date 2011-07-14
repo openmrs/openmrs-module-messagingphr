@@ -131,15 +131,18 @@ $j(function() {
 	    var html = myEditor.get('element').value, match;
 		match = html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);
 	    html = match ? match[1] : html;
-	    DWRModuleMessageService.sendMessage(html, document.getElementById('to-addresses').value,document.getElementById('subject').value,true,function(response){
-			$j("#send-button").attr("disabled","");
-			$j("#discard-button").attr("disabled","");
-			if(!response){
-				response = "Message Sent!";
-			}
-			$j("#sent-message-result").html(response);
-			var t = setTimeout("clearMessage()",3000);
-			clearFields();
+	    
+	    DWRMessagingAddressServiceForPhr.findOmailAddress(document.getElementById('to-addresses').value, function(response){
+		    DWRModuleMessageService.sendMessage(html, response,document.getElementById('subject').value,true,function(response){
+				$j("#send-button").attr("disabled","");
+				$j("#discard-button").attr("disabled","");
+				if(!response){
+					response = "Message Sent!";
+				}
+				$j("#sent-message-result").html(response);
+				var t = setTimeout("clearMessage()",3000);
+				clearFields();
+		    });
 	    });
 	}
 	function clearMessage(){

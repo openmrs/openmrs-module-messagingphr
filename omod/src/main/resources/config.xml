@@ -36,6 +36,7 @@
 				<include method="saveOrUpdateAddress"/>
 				<include method="saveOrUpdateAddressForCurrentUser"/>
 				<include method="autocompleteSearch"/>
+				<include method="findOmailAddress"/>
 			</create>			
 		</allow>
 	</dwr>
