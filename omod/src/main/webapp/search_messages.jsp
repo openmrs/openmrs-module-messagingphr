@@ -1,16 +1,16 @@
 <%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
 
-<personalhr:require privilege="View Messages" otherwise="/phr/login.htm" redirect="/phr/index.htm" />
+<personalhr:require privilege="View Messages" otherwise="/phr/login.htm" redirect="/module/messagingphr/search_messages.form"/>
 
 <%@ include file="/WEB-INF/template/header.jsp"%>
 
-<link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/messaging/css/search_messages.css" type="text/css"/>
+<link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/messagingphr/css/search_messages.css" type="text/css"/>
 <table id="index">
 	<tr>
 	<td id="link-cell">
 		<div id="link-panel">
 			<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">Mail Inbox</a>
-			<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose Message</a>
+			<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose New Message</a>
 			<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form">Sent Messages</a>
 			<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form">Settings</a>
 		</div>

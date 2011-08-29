@@ -1,11 +1,22 @@
 package org.openmrs.module.messagingphr.extension.html;
 
+import org.openmrs.api.context.Context;
 import org.openmrs.module.Extension;
 import org.openmrs.module.messaging.util.MessagingConstants;
 import org.openmrs.module.web.extension.PatientDashboardTabExt;
 
 public class MessagingPhrDashboardTabExt extends PatientDashboardTabExt {
 
+    /**
+     * default constructor: set display order attribute
+     */
+    public MessagingPhrDashboardTabExt() {
+        super();
+        String order = Context.getAdministrationService().getGlobalProperty("messagingphr.MessagingPhrDashboardTabExt.displayorder");
+        this.setOrder(Integer.valueOf(order==null? "5": order));
+    }
+
+    
 	public Extension.MEDIA_TYPE getMediaType(){
 		return Extension.MEDIA_TYPE.html;
 	}
@@ -27,7 +38,11 @@ public class MessagingPhrDashboardTabExt extends PatientDashboardTabExt {
 
 	@Override
 	public String getTabName() {
-		return "My Mail";
+	    if(Context.hasPrivilege("PHR Single Patient Access")){
+	        return "My Mail";
+	    } else {
+            return "Mail";	        
+	    }
 	}
 
 }

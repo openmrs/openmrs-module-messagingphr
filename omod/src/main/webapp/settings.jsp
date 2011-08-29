@@ -1,6 +1,6 @@
 <%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
 
-<personalhr:require privilege="View Messages" otherwise="/phr/login.htm" redirect="/phr/index.htm" />
+<personalhr:require privilege="View Messages" otherwise="/phr/login.htm" redirect="/module/messagingphr/settings.form" />
 
 <openmrs:globalProperty var="phrStarted" key="personalhr.started" defaultValue="false"/>
 <c:if test="${phrStarted}">
@@ -13,13 +13,13 @@
 <%@ include file="/WEB-INF/template/header.jsp"%>
 <openmrs:htmlInclude file="/dwr/engine.js" />	
 
-<link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/messaging/css/settings.css" type="text/css"/>
+<link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/messagingphr/css/settings.css" type="text/css"/>
 <table id="index">
 <tr>
 	<td id="link-cell">
 		<div id="link-panel">
 			<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">Mail Inbox</a>
-			<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose Message</a>
+			<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose New Message</a>
 			<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form">Sent Messages</a>
 			<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form">Settings</a>
 		</div>

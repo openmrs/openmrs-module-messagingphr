@@ -73,7 +73,7 @@ public class DWRMessagingAddressServiceForPhr extends DWRMessagingAddressService
                 for(MessagingAddress ma: mAddresses){
                     AddressAutocompleteBean addressBean = new AddressAutocompleteBean(ma);
                     log.debug("Found address: " + addressBean.getLabel() + "->" + addressBean.getValue());
-                    if(!addressBeans.contains(addressBean)){
+                    if(!addressBeans.contains(addressBean) && addressBean.getValue().toLowerCase().contains("omail:")){
                         addressBeans.add(addressBean);
                         if(addrList.isEmpty()) {
                             addrList += addressBean.getValue();
