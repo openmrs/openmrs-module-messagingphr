@@ -82,11 +82,6 @@
 					<input type="hidden" name="replyAll" value="false" style="display:inline;"/>
 					<input id="reply-button" type="submit" value="Reply" style="display:inline;"></input>
 				</form>
-				<form method="post" action="<openmrs:contextPath/>/module/messagingphr/reply_to_message.form" style="display:inline;">
-					<input type="hidden" name="replyToMessageId" value="" id="replyAllMessageId" style="display:inline;"/>
-					<input type="hidden" name="replyAll" value="true" style="display:inline;"/>
-					<input id="reply-all-button" type="submit" value="Reply All" style="display:inline;"></input>
-				</form>
 			</div>
 			<div style="clear:both;"></div>
 		</div>

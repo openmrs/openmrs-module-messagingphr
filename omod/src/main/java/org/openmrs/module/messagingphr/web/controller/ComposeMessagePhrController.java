@@ -42,13 +42,13 @@ public class ComposeMessagePhrController {
 		HttpSession session = request.getSession();
 		Message m = Context.getService(MessageService.class).getMessage(messageId);
 		String addresses = "";
-		addresses += "\"" + m.getSender().getPersonName().toString()+ "\"";
-		addresses += " <omail:"+ m.getSender().getId().toString() + ">, ";
+		addresses += "\"" + m.getSender().getPersonName().toString()+ "\",";
+		//addresses += " <omail:"+ m.getSender().getId().toString() + ">, ";
 		if(replyAll){
 			for(MessageRecipient mr: m.getTo()){
 				if(mr.getProtocol().equals(OMailProtocol.class)){
-					addresses += "\"" + mr.getRecipient().getPerson().getPersonName().toString()+ "\"";
-					addresses += " <omail:"+ mr.getRecipient().getPerson().getId().toString() + ">, ";
+					addresses += "\"" + mr.getRecipient().getPerson().getPersonName().toString()+ "\",";
+					//addresses += " <omail:"+ mr.getRecipient().getPerson().getId().toString() + ">, ";
 				}
 			}
 		}
