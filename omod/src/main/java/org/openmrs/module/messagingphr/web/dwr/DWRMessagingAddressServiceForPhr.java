@@ -28,6 +28,7 @@ public class DWRMessagingAddressServiceForPhr extends DWRMessagingAddressService
 		List<AddressAutocompleteBean> addressBeans = new ArrayList<AddressAutocompleteBean>();
 		
 	    List<Person> people = Context.getService(PhrService.class).getRelatedPersons(Context.getAuthenticatedUser().getPerson());
+	    people.add(Context.getAuthenticatedUser().getPerson());
 				
 		MessagingAddressService addressService = Context.getService(MessagingAddressService.class);
 		for(Person p: people){
@@ -39,13 +40,6 @@ public class DWRMessagingAddressServiceForPhr extends DWRMessagingAddressService
 				if(!addressBeans.contains(addressBean)){
 					addressBeans.add(addressBean);
 				}
-			}
-		}
-		List<MessagingAddress> mAddresses2 = addressService.findMessagingAddresses(query, false);
-		for(MessagingAddress ma2: mAddresses2){
-			AddressAutocompleteBean addressBean2 = new AddressAutocompleteBeanPhr(ma2);
-			if(!addressBeans.contains(addressBean2)){
-				addressBeans.add(addressBean2);
 			}
 		}
 		return addressBeans;
@@ -63,6 +57,7 @@ public class DWRMessagingAddressServiceForPhr extends DWRMessagingAddressService
         List<AddressAutocompleteBean> addressBeans = new ArrayList<AddressAutocompleteBean>();
         
         List<Person> people = Context.getService(PhrService.class).getRelatedPersons(Context.getAuthenticatedUser().getPerson());
+        people.add(Context.getAuthenticatedUser().getPerson());
                 
         MessagingAddressService addressService = Context.getService(MessagingAddressService.class);
         String addrList = "";

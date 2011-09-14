@@ -46,10 +46,6 @@
 		<div id="header-panel" class="boxHeader">
 			<table id="header-table">
 				<tr>
-					<td><span id="subject-label">Disclaimer:</span></td>
-					<td class="header-left-column">Please do not use this messaging system if you need immediate help.  If you are experiencing a medical emergency, please call 911 or go to your nearest emergency room.</td>
-				</tr>
-				<tr>
 					<td><span id="to-label">To:</span></td>
 					<td class="header-left-column"><textarea id="to-addresses" rows="2">${toAddresses}</textarea></td>
 				</tr>

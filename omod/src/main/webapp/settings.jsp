@@ -42,7 +42,6 @@
 					<div id="edit-address-panel">
 						<input type="text" id="address"></input>
 						<select id="protocolClass">
-							<option value="org.openmrs.module.messaging.sms.SmsProtocol">SMS</option>
 							<option value="org.openmrs.module.messaging.email.EmailProtocol">Email</option>
 						</select>
 						<input type="checkbox" id="preferred">Preferred</input>
@@ -102,14 +101,15 @@
 			// and placing each message values into that row
 			for (var i = 0; i < addresses.length; i++) {
 				address = addresses[i];
-				if(protocolNames[address.protocolClass] == "OMail") continue;
-				$j(cloneAddressRow(address.id)).appendTo("#address-table-body");
-			    $j("#address-row-address" + address.id).html(address.address);
-			    $j("#address-row-type" + address.id).html(protocolNames[address.protocolClass]);
-			    $j("#address-row-preferred" + address.id).html(address.preferred?"*":"");
-				$j("#edit-link"+address.id).attr("href","#");
-				$j("#delete-link"+address.id).attr("href","#");
-				addressCache[address.id] = address;
+				if(protocolNames[address.protocolClass] == "Email") {
+					$j(cloneAddressRow(address.id)).appendTo("#address-table-body");
+				    $j("#address-row-address" + address.id).html(address.address);
+				    $j("#address-row-type" + address.id).html(protocolNames[address.protocolClass]);
+				    $j("#address-row-preferred" + address.id).html(address.preferred?"*":"");
+					$j("#edit-link"+address.id).attr("href","#");
+					$j("#delete-link"+address.id).attr("href","#");
+					addressCache[address.id] = address;
+				}
 			}
 		});
 	}
