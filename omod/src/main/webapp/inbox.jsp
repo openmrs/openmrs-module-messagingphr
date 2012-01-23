@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
 
 <personalhr:require privilege="View Messages" otherwise="/phr/login.htm" redirect="/module/messagingphr/inbox.form"/>
+<c:set var="notInTab" value="${param.inTab != null && !param.inTab}"/>
 
 <c:if test="${enablePatientName}">
  <c:set var="patientName" value="${patient.personName.fullName} (${patient.patientIdentifier})"/>
@@ -8,26 +9,31 @@
 </c:if>
 
 <openmrs:globalProperty var="phrStarted" key="personalhr.started" defaultValue="false"/>
-<c:if test="${phrStarted}">
+<c:if test="${phrStarted && !notInTab}">
 	<%@ page import="org.openmrs.web.WebConstants" %>
 	<%
 		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
 	%>
 </c:if>
-
-<%@ include file="/WEB-INF/template/header.jsp"%>
+<%@ include file="/WEB-INF/view/module/personalhr/template/header.jsp" %>
 <openmrs:htmlInclude file="/dwr/engine.js" />	
 
 <link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/messagingphr/css/inbox.css" type="text/css"/>
 <table id="index">
 	<tr>
 	<td id="link-cell">
-		<div id="link-panel">
-			<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">Mail Inbox</a>
-			<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose New Message</a>
-			<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form">Sent Messages</a>
-			<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form">Settings</a>
-		</div>
+			<c:if test="${!notInTab}">		
+				<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">Mail Inbox</a>
+				<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose New Message</a>
+				<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form">Sent Messages</a>
+				<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form">Settings</a>
+			</c:if>
+			<c:if test="${notInTab}">		
+				<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form?inTab=false">Mail Inbox</a>
+				<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form?inTab=false">Compose New Message</a>
+				<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form?inTab=false">Sent Messages</a>
+				<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form?inTab=false">Settings</a>
+			</c:if>
 	</td>
 	<td id="inbox">
 		<div id="search-bar-container">
@@ -99,6 +105,7 @@
 <openmrs:htmlInclude file="/dwr/engine.js"/>
 <openmrs:htmlInclude file="/dwr/util.js"/>
 <script src="<openmrs:contextPath/>/dwr/interface/DWRModuleMessageService.js"></script>
+<script src="<openmrs:contextPath/>/dwr/interface/DWRModuleMessageServiceForPhr.js"></script>
 
 <script type="text/javascript">	
 	window.onload = init;
@@ -140,7 +147,7 @@
 	}
 	
 	function fillMessageTable(){
-		DWRModuleMessageService.getMessagesForAuthenticatedUserWithPageSize(pageNum,pageSize,true,function(messageSet){
+		DWRModuleMessageServiceForPhr.getMessagesForAuthenticatedUserWithPageSize(pageNum,pageSize,true,function(messageSet){
 			dwr.util.removeAllRows("messages-table-body", { filter:function(tr) {return (tr.id != "pattern");}});
 			var message, messageId;
 			var messages = messageSet.messages;

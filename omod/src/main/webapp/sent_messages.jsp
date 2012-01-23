@@ -1,28 +1,35 @@
 <%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
 
 <personalhr:require privilege="View Messages" otherwise="/phr/login.htm" redirect="/module/messagingphr/sent_messages.form" />
+<c:set var="notInTab" value="${param.inTab != null && !param.inTab}"/>
 
 <openmrs:globalProperty var="phrStarted" key="personalhr.started" defaultValue="false"/>
-<c:if test="${phrStarted}">
+<c:if test="${phrStarted && !notInTab}">
 	<%@ page import="org.openmrs.web.WebConstants" %>
 	<%
 		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
 	%>
 </c:if>
 
-<%@ include file="/WEB-INF/template/header.jsp"%>
+<%@ include file="/WEB-INF/view/module/personalhr/template/header.jsp" %>
 <openmrs:htmlInclude file="/dwr/engine.js" />	
 
 <link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/messagingphr/css/sent_messages.css" type="text/css"/>
 <table id="index">
 <tr>
 	<td id="link-cell">
-		<div id="link-panel">
-			<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">Mail Inbox</a>
-			<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose New Message</a>
-			<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form">Sent Messages</a>
-			<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form">Settings</a>
-		</div>
+			<c:if test="${!notInTab}">		
+				<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">Mail Inbox</a>
+				<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose New Message</a>
+				<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form">Sent Messages</a>
+				<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form">Settings</a>
+			</c:if>
+			<c:if test="${notInTab}">		
+				<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form?inTab=false">Mail Inbox</a>
+				<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form?inTab=false">Compose New Message</a>
+				<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form?inTab=false">Sent Messages</a>
+				<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form?inTab=false">Settings</a>
+			</c:if>
 	</td>
 	<td id="sent-messages">
 		<div id="search-bar-container">

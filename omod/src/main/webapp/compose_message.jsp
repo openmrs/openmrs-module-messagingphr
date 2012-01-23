@@ -1,9 +1,20 @@
 <%@ include file="/WEB-INF/view/module/personalhr/template/include.jsp" %>
 
 <personalhr:require privilege="View Messages" otherwise="/phr/login.htm" redirect="/module/messagingphr/compose_message.form" />
+<c:set var="notInTab" value="${param.inTab != null && !param.inTab}"/>
+
+<openmrs:globalProperty var="phrStarted" key="personalhr.started" defaultValue="false"/>
+<c:if test="${phrStarted && !notInTab}">
+	<%@ page import="org.openmrs.web.WebConstants" %>
+	<%
+		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
+	%>
+</c:if>
+
+<%@ include file="/WEB-INF/view/module/personalhr/template/header.jsp" %>
+<openmrs:htmlInclude file="/dwr/engine.js" />	
 
 <link rel="stylesheet" href="<openmrs:contextPath/>/moduleResources/messagingphr/css/compose_message.css" type="text/css"/>
-
 <!-- YUI Text Editor includes -->
 <link rel="stylesheet" type="text/css" href="<openmrs:contextPath/>/moduleResources/messaging/yui-text-editor/skin.css">
 <script type="text/javascript" src="<openmrs:contextPath/>/moduleResources/messaging/yui-text-editor/yahoo-dom-event.js"></script>
@@ -20,26 +31,23 @@
 	myEditor.render();
 </script>
 
-<openmrs:globalProperty var="phrStarted" key="personalhr.started" defaultValue="false"/>
-<c:if test="${phrStarted}">
-	<%@ page import="org.openmrs.web.WebConstants" %>
-	<%
-		 session.setAttribute(WebConstants.OPENMRS_HEADER_USE_MINIMAL, "true");
-	%>
-</c:if>
-
-<%@ include file="/WEB-INF/template/header.jsp"%>
-<openmrs:htmlInclude file="/dwr/engine.js" />	
-
 <div id="index" class="home">
 	<table id="compose-message-table">
 	<tr>
 	<td id="link-cell">
 		<div id="link-panel">
-			<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">Mail Inbox</a>
-			<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose New Message</a>
-			<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form">Sent Messages</a>
-			<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form">Settings</a>
+			<c:if test="${!notInTab}">		
+				<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form">Mail Inbox</a>
+				<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form">Compose New Message</a>
+				<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form">Sent Messages</a>
+				<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form">Settings</a>
+			</c:if>
+			<c:if test="${notInTab}">		
+				<a id="inbox-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/inbox.form?inTab=false">Mail Inbox</a>
+				<a id="compose-message-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/compose_message.form?inTab=false">Compose New Message</a>
+				<a id="sent-messages-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/sent_messages.form?inTab=false">Sent Messages</a>
+				<a id="settings-link" class="panel-link" href="<openmrs:contextPath/>/module/messagingphr/settings.form?inTab=false">Settings</a>
+			</c:if>
 		</div>
 	</td>
 	<td id="compose-message-cell">

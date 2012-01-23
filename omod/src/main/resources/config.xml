@@ -38,6 +38,11 @@
 				<include method="autocompleteSearch"/>
 				<include method="findOmailAddress"/>
 			</create>			
+			<create creator="new" javascript="DWRModuleMessageServiceForPhr">
+				<param name="class" value="org.openmrs.module.messagingphr.web.dwr.DWRModuleMessageServiceForPhr"/>
+				<include method="getMessagesForAuthenticatedUserWithPageSize"/>
+				<include method="getMessagesForPerson"/>
+			</create>			
 		</allow>
 	</dwr>
 	
@@ -51,7 +56,12 @@
 		<point>org.openmrs.module.personalhr.restrictedUserDashboardTab</point>
 		<class>@MODULE_PACKAGE@.extension.html.MessagingPhrDashboardTabExt</class>
 	</extension>
-		
+
+	<extension>
+		<point>org.openmrs.personalhr.gutter.tools</point>
+		<class>@MODULE_PACKAGE@.extension.html.MessagingPhrGutterExt</class>
+	</extension>
+	
 	<!-- Privileges -->
 	
 	<privilege>
