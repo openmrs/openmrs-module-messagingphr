@@ -25,7 +25,11 @@ public class MessagingPhrDashboardTabExt extends PatientDashboardTabExt {
 	public String getPortletUrl() {
 		return "messagingPhrDashboardTab";
 	}
-		
+	
+    public String getUrl() {
+        return "module/messagingphr/inbox.form";
+    }
+			
 	@Override
 	public String getRequiredPrivilege() {
 		return MessagingConstants.PRIV_VIEW_MESSAGES;
