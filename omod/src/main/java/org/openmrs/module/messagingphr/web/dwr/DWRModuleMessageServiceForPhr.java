@@ -62,8 +62,12 @@ public class DWRModuleMessageServiceForPhr extends DWRModuleMessageService {
 		for(Message m: messages){
 		    if(Context.getService(PhrService.class).hasBasicRole(m.getSender(),PhrService.PhrBasicRole.PHR_ADMINISTRATOR)) {
 		       if(m.getTo() != null) {
-		           m.getTo().clear(); //Hide recipients if sender is administrator
+		           m.getTo().clear(); //Hide recipients if sender is administrator		           
 		       }
+               if(m.getSender() != null) {
+                   Person p = Context.getPersonService().getPerson(1);                  
+                   m.setSender(p); //Hide sender with system admin if sender is administrator                 
+               }
 		    }
 			beans.add(new MessageBean(m));
 		}

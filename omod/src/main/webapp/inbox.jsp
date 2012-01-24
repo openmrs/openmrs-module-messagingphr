@@ -139,8 +139,12 @@
 		$j("#header-to").html(message.recipients);
 		$j("#message-text-panel").html(message.content);
 		$j("#messages-table-body").children().removeClass("highlight-row");
-		$j("#pattern"+message.id).addClass("highlight-row");	
-		$j("#reply-buttons").css("visibility","visible");
+		$j("#pattern"+message.id).addClass("highlight-row");
+		if(message.recipients==""){
+			$j("#reply-buttons").css("visibility","hidden");
+		} else {
+			$j("#reply-buttons").css("visibility","visible");
+		}
 		$j(".header-label").css("visibility","visible");
 		$j("#replyAllMessageId").val(message.id);
 		$j("#replyMessageId").val(message.id);
