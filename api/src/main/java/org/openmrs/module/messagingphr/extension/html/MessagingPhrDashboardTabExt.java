@@ -12,8 +12,6 @@ public class MessagingPhrDashboardTabExt extends PatientDashboardTabExt {
      */
     public MessagingPhrDashboardTabExt() {
         super();
-        String order = Context.getAdministrationService().getGlobalProperty("messagingphr.MessagingPhrDashboardTabExt.displayorder");
-        this.setOrder(Integer.valueOf(order==null? "5": order));
     }
 
     
