@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>org.openmrs.module</groupId>
 			<artifactId>messaging-api</artifactId>
-			<version>${project.parent.version}</version>
+			<version>${messagingVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openmrs.api</groupId>
